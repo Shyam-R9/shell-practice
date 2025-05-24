@@ -1,7 +1,9 @@
 #!/bin/bash
+echo "enter first number"
+read NUMBER1
 
-NUMBER1=100
-NUMBER2=200
+echo "enter second number"
+read NUMBER2
 
 TIMESTAMP=$(date)
 
