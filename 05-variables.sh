@@ -1,5 +1,5 @@
 #!/bin/bash
 
-echo "enter your id number"
+echo "enter your employee id number"
 read NUMBER
-echo $NUMBER
+echo "your employee id is :" $NUMBER
