@@ -3,10 +3,11 @@
 USERID=$(id -u)
 
 if [ $USERID -ne 0 ]; then
-    echo "You are installing with root access"
-else
-    echo "Error: Install with root/admin access"
+    echo "Error: You are not with root access"
     exit 1
+else
+    echo "You are installing with root access"
+
 fi
 
 dnf list installed mysql
@@ -17,6 +18,8 @@ if [ $? -ne 0 ]; then
     if [ $? -ne 0 ]; then
         echo "my sql installation failed."
         exit 1
+    fi
 else
     echo "SQL Installed successfully"
+fi
 
