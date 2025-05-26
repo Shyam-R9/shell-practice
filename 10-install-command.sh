@@ -1,8 +1,11 @@
 #!/bin/bash
 
-out1=$(dff)
-out2=$(df)
-out3=$(id -u)
-echo "out put1 : $out1"
-echo "out put2 : $out2"
-echo "out put3 : $out3"
+USERID=$(id -u)
+
+if [$USERID -eq 0]; then
+    echo "You are working with root access"
+else:
+    echo " you are not a root user"
+
+dnf list installed mysql
+
