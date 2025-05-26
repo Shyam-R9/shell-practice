@@ -8,4 +8,3 @@ else:
     echo " you are not a root user"
 
 dnf list installed
-
