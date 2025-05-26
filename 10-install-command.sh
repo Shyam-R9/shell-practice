@@ -2,9 +2,9 @@
 
 USERID=$(id -u)
 
-if [$USERID -eq 0]; then
+if [ $USERID -eq 0 ]; then
     echo "You are working with root access"
-else:
+else
     echo " you are not a root user"
-
+fi
 dnf list installed
