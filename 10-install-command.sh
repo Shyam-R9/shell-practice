@@ -1,8 +1,8 @@
 #!/bin/bash
 
-out1 = $(ps -ef)
-out2 = $(pss -ef)
-out3 = $(df)
-echo "$out1"
-echo "$out2"
-echo "$out3"
+OUT1=$(ps -ef)
+OUT2=$(pss -ef)
+OUT3=$(df)
+echo "$OUT1"
+echo "$OUT2"
+echo "$OUT3"
