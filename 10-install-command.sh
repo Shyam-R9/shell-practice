@@ -2,7 +2,7 @@
 
 USERID=$(id -u)
 
-if [ $USERID -ne 0 ]; then
+if [ $USERID -eq 0 ]; then
     echo "Error: You are not installing with root access"
     
 else
