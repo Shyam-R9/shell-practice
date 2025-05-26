@@ -7,5 +7,5 @@ if [$USERID -eq 0]; then
 else:
     echo " you are not a root user"
 
-dnf list installed mysql
+dnf list installed
 
