@@ -1,67 +1,62 @@
 #!/bin/bash
 
+USERID=$(id -u)
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-LOG_FOLDER=/var/log/shellscripts-logs
-mkdir -p $LOG_FOLDER
+LOGS_FOLDER="/var/log/shellscript-logs"
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
-LOG_FILE="$LOG_FOLDER/$SCRIPT_NAME.log"
+LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
 
-validate_install() {
-        
-    if [ "$1" -eq 0 ]; then
-        echo -e "$G $2 installed successfully $N" | tee -a $LOG_FILE
+mkdir -p $LOGS_FOLDER
+echo "Script started executing at: $(date)" | tee -a $LOG_FILE
+
+if [ $USERID -ne 0 ]
+then
+    echo -e "$R ERROR:: Please run this script with root access $N" | tee -a $LOG_FILE
+    exit 1 #give other than 0 upto 127
+else
+    echo "You are running with root access" | tee -a $LOG_FILE
+fi
+
+# validate functions takes input as exit status, what command they tried to install
+VALIDATE(){
+    if [ $1 -eq 0 ]
+    then
+        echo -e "Installing $2 is ... $G SUCCESS $N" | tee -a $LOG_FILE
     else
-        echo -e "$R $2 installation failed $N" | tee -a $LOG_FILE 2>&1
+        echo -e "Installing $2 is ... $R FAILURE $N" | tee -a $LOG_FILE
         exit 1
-
-    fi    
+    fi
 }
 
-
-
-USERID=$(id -u)
-
-if [ "$USERID" -eq 0 ]; then
-    echo "You are running the script with root access" | tee -a $LOG_FILE
+dnf list installed mysql &>>$LOG_FILE
+if [ $? -ne 0 ]
+then
+    echo "MySQL is not installed... going to install it" | tee -a $LOG_FILE
+    dnf install mysql -y &>>$LOG_FILE
+    VALIDATE $? "MySQL"
 else
-    echo -e "$R custErr:You need admin access to run this script $N" | tee -a $LOG_FILE 2>&1
-    exit 1
+    echo -e "Nothing to do MySQL... $Y already installed $N" | tee -a $LOG_FILE
 fi
 
-
-echo "Script execution started at: $(date)" | tee -a $LOG_FILE
-
-dnf list installed mysql | tee -a $LOG_FILE
-
-if [ $? -eq 0 ]; then
-    echo -e "$Y MySql is already installed on this system $N" | tee -a $LOG_FILE
+dnf list installed python3 &>>$LOG_FILE
+if [ $? -ne 0 ]
+then
+    echo "python3 is not installed... going to install it" | tee -a $LOG_FILE
+    dnf install python3 -y &>>$LOG_FILE
+    VALIDATE $? "python3"
 else
-    echo "MySql is not installed on this system, proceeding to install" | tee -a $LOG_FILE 
-    dnf install mysql -y | tee -a $LOG_FILE
-    validate_install $? "mysql"
+    echo -e "Nothing to do python... $Y already installed $N" | tee -a $LOG_FILE
 fi
 
-dnf list installed python3 | tee -a $LOG_FILE
-
-if [ $? -eq 0 ]; then
-    echo -e "$Y Python is already installed on this system $N" | tee -a $LOG_FILE
+dnf list installed nginx &>>$LOG_FILE
+if [ $? -ne 0 ]
+then
+    echo "nginx is not installed... going to install it" | tee -a $LOG_FILE
+    dnf install nginx -y &>>$LOG_FILE
+    VALIDATE $? "nginx"
 else
-    echo "Python is not installed on this system, proceeding to install" | tee -a $LOG_FILE
-    dnf install python3 -y | tee -a $LOG_FILE
-    validate_install $? "python"
+    echo -e "Nothing to do nginx... $Y already installed $N" | tee -a $LOG_FILE
 fi
-
-dnf list installed nginx
-
-if [ $? -eq 0 ]; then
-    echo -e "$Y nginx is already installed on this system $N" | tee -a $LOG_FILE
-else
-    echo "nginx is not installed on this system, proceeding to install" | tee -a $LOG_FILE
-    dnf install nginx -y | tee -a $LOG_FILE
-    validate_install $? "nginx"
-fi
-echo "----------------------------------The End--------------------------------------------" | tee -a $LOG_FILE
-
