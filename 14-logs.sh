@@ -60,7 +60,7 @@ if [ $? -eq 0 ]; then
     echo -e "$Y nginx is already installed on this system $N" | tee -a $LOG_FILE
 else
     echo "nginx is not installed on this system, proceeding to install" | tee -a $LOG_FILE
-    dnff install nginx -y | tee -a $LOG_FILE
+    dnf install nginx -y | tee -a $LOG_FILE
     validate_install $? "nginx"
 fi
 
