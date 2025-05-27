@@ -30,3 +30,22 @@ else
     VALIDATE $? "mysql"
 fi
 
+dnf list installed python3
+
+if [ $? -eq 0 ]; then
+    echo "Python is already installed on this system"
+else
+    dnf install python3
+    VALIDATE $? "python"
+fi
+
+dnf list installed nginx
+
+if [ $? -eq 0 ]; then
+    echo "nginx is already installed on this system"
+else
+    dnf install nginx
+    VALIDATE $? "nginx"
+fi
+
+
