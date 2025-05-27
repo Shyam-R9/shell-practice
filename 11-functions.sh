@@ -2,10 +2,10 @@
 
 VALIDATE() {
         
-    if [ $1 -eq 0 ]; then
-        echo "$2 installed successfully"
+    if [ "$1" -eq 0 ]; then
+        echo "$2" installed successfully"
     else
-        echo "$2 installation failed"
+        echo "$2" installation failed"
         exit 1
 
     fi    
@@ -25,7 +25,6 @@ dnf list installed mysql
 
 if [ $? -eq 0 ]; then
     echo "MySql is already installed on this system"
-    exit 0
 else
     echo "MySql is not installed on this system, proceeding to install"
     dnf install mysql -y
@@ -37,7 +36,7 @@ dnf list installed python3
 if [ $? -eq 0 ]; then
     echo "Python is already installed on this system"
 else
-    echo "Python MySql is not installed on this system, proceeding to install"
+    echo "Python is not installed on this system, proceeding to install"
     dnf install python3 -y
     VALIDATE $? "python"
 fi
