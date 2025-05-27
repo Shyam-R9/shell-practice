@@ -2,15 +2,15 @@
 
 R=\e[31m
 G=\e[32m
-Y=\e[32m
+Y=\e[33m
 N=\e[0m
 
 validate_install() {
         
     if [ "$1" -eq 0 ]; then
-        echo -e "$G "$2" installed successfully $N"
+        echo -e "$G $2 installed successfully $N"
     else
-        echo "$R "$2" installation failed $N"
+        echo "$R $2 installation failed $N"
         exit 1
 
     fi    
