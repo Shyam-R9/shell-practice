@@ -63,5 +63,5 @@ else
     dnf install nginx -y | tee -a $LOG_FILE
     validate_install $? "nginx"
 fi
-
+echo "-----------------------------------------------------------------------------------"
 
