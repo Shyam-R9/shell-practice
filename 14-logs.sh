@@ -8,9 +8,6 @@ LOG_FOLDER=/var/logs/shellscripts-logs
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
 LOG_FILE="$LOG_FOLDER/$SCRIPT_NAME.log"
 
-mkdir -p $LOG_FOLDER
-echo "Script execution started at: $(date)" | tee -a $LOG_FILE
-
 validate_install() {
         
     if [ "$1" -eq 0 ]; then
@@ -22,6 +19,7 @@ validate_install() {
     fi    
 }
 
+
 USERID=$(id -u)
 
 if [ "$USERID" -eq 0 ]; then
@@ -31,6 +29,8 @@ else
     exit 1
 fi
 
+mkdir -p $LOG_FOLDER
+echo "Script execution started at: $(date)" | tee -a $LOG_FILE
 
 dnf list installed mysql
 
