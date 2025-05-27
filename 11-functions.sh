@@ -2,7 +2,7 @@
 
 USERID=$(id -u)
 
-if [ $USERID=0 ]; then
+if [ "$USERID" -eq 0 ]; then
     echo "You are running the script with root access"
 else
     echo "custErr:You need admin access to run this script"
